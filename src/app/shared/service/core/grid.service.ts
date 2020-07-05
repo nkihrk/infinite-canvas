@@ -6,9 +6,6 @@ import { CanvasOffsets } from '../../model/canvas-offsets.model';
   providedIn: 'root'
 })
 export class GridService {
-  private gridScale = 50; // It is important to set the same value as rulerScale
-  private gridColor = '#373543';
-
   constructor(private memory: MemoryService) {}
 
   // Create grid on canvas
@@ -23,13 +20,13 @@ export class GridService {
 
     // X-axis
     const offsetX: number = canvasOffsets.newOffsetX - 1; // -1 is prefix for a border width of main canvas
-    const remainX: number = Math.floor(offsetX / (this.gridScale * canvasOffsets.zoomRatio));
-    const cutoffX: number = offsetX - remainX * this.gridScale * canvasOffsets.zoomRatio;
+    const remainX: number = Math.floor(offsetX / (this.memory.constant.GRID_SCALE * canvasOffsets.zoomRatio));
+    const cutoffX: number = offsetX - remainX * this.memory.constant.GRID_SCALE * canvasOffsets.zoomRatio;
 
     // Y-axis
     const offsetY: number = canvasOffsets.newOffsetY - 1; // -1 is prefix for a border width of main canvas
-    const remainY: number = Math.floor(offsetY / (this.gridScale * canvasOffsets.zoomRatio));
-    const cutoffY: number = offsetY - remainY * this.gridScale * canvasOffsets.zoomRatio;
+    const remainY: number = Math.floor(offsetY / (this.memory.constant.GRID_SCALE * canvasOffsets.zoomRatio));
+    const cutoffY: number = offsetY - remainY * this.memory.constant.GRID_SCALE * canvasOffsets.zoomRatio;
 
     // console.log(cutoffX, cutoffY);
 
@@ -37,27 +34,27 @@ export class GridService {
 
     // Start rendering
     ctxGridBuffer.beginPath();
-    ctxGridBuffer.strokeStyle = this.gridColor;
+    ctxGridBuffer.strokeStyle = this.memory.constant.GRID_COLOR;
     ctxGridBuffer.lineWidth = 1;
 
     // X-axis positive
-    for (let i = cutoffX; i < c.width; i += this.gridScale * canvasOffsets.zoomRatio) {
+    for (let i = cutoffX; i < c.width; i += this.memory.constant.GRID_SCALE * canvasOffsets.zoomRatio) {
       ctxGridBuffer.moveTo(i, 0);
       ctxGridBuffer.lineTo(i, c.height);
     }
     // X-axis negative
-    for (let i = cutoffX; i > 0; i -= this.gridScale * canvasOffsets.zoomRatio) {
+    for (let i = cutoffX; i > 0; i -= this.memory.constant.GRID_SCALE * canvasOffsets.zoomRatio) {
       ctxGridBuffer.moveTo(i, 0);
       ctxGridBuffer.lineTo(i, c.height);
     }
 
     // Y-axis positive
-    for (let i = cutoffY; i < c.height; i += this.gridScale * canvasOffsets.zoomRatio) {
+    for (let i = cutoffY; i < c.height; i += this.memory.constant.GRID_SCALE * canvasOffsets.zoomRatio) {
       ctxGridBuffer.moveTo(0, i);
       ctxGridBuffer.lineTo(c.width, i);
     }
     // Y-axis negative
-    for (let i = cutoffY; i > 0; i -= this.gridScale * canvasOffsets.zoomRatio) {
+    for (let i = cutoffY; i > 0; i -= this.memory.constant.GRID_SCALE * canvasOffsets.zoomRatio) {
       ctxGridBuffer.moveTo(0, i);
       ctxGridBuffer.lineTo(c.width, i);
     }
